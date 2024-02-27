@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL3
 pragma solidity ^0.8.20;
 
-import {CrunaManagedNFTOwnable} from "@cruna/protocol/token/CrunaManagedNFTOwnable.sol";
+import {CrunaProtectedNFTOwnable} from "@cruna/protocol/token/CrunaProtectedNFTOwnable.sol";
 
 //import "hardhat/console.sol";
 
 // @dev This contract is a simple example of a protected NFT.
-contract SerpentShields is CrunaManagedNFTOwnable {
+contract SerpentShields is CrunaProtectedNFTOwnable {
   error NotTheFactory();
 
   address public factory;
@@ -23,7 +23,7 @@ contract SerpentShields is CrunaManagedNFTOwnable {
   //   using Nick's factory, so we may in theory hardcode them in the code. However,
   //   if so, we will not be able to test the contract.
   // @param owner The address of the owner.
-  constructor(address owner) CrunaManagedNFTOwnable("SerpentShields", "LW", owner) {}
+  constructor(address owner) CrunaProtectedNFTOwnable("SerpentShields", "LW", owner) {}
 
   // @dev Set factory to 0x0 to disable a factory.
   // @notice This is the only function that can be called by the owner.

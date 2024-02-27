@@ -28,7 +28,7 @@
   "homepage": "https://github.com/cruna-cc/cruna-nft-sample#readme",
   "license": "MIT",
   "devDependencies": {
-    "@cruna/protocol": "1.0.0-rc.4",
+    "@cruna/protocol": "1.0.0-rc.8",
     "@metamask/eth-sig-util": "^7.0.1",
     "@openzeppelin/contracts": "^5.0.1",
     "erc6551": "^0.3.1",
