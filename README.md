@@ -18,3 +18,10 @@ pnpm i
 
 Replace the code in SerpentShields.sol with your own NFT contract code and update the tests in test/integration.test.js to match your contract.
 
+## Copyright
+
+(c) 2024 Cruna
+
+## License
+
+MIT
