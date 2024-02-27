@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: GPL3
 pragma solidity ^0.8.0;
 
 import {CrunaManagerProxy} from "@cruna/protocol/manager/CrunaManagerProxy.sol";

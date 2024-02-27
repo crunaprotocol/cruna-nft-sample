@@ -24,4 +24,4 @@ Replace the code in SerpentShields.sol with your own NFT contract code and updat
 
 ## License
 
-MIT
+GPL3
