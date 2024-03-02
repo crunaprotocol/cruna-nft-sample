@@ -8,19 +8,20 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Initializable, UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {ReentrancyGuardUpgradeable} from "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
-
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {SerpentShields} from "./SerpentShields.sol";
 
 //import {console} from "hardhat/console.sol";
 
 contract SerpentShieldsFactory is Initializable, OwnableUpgradeable, ReentrancyGuardUpgradeable, UUPSUpgradeable {
+  using SafeERC20 for ERC20;
+
   event PriceSet(uint256 price);
   event StableCoinSet(address stableCoin, bool active);
 
   error ZeroAddress();
   error InsufficientFunds();
   error UnsupportedStableCoin();
-  error TransferFailed();
   error InvalidArguments();
   error InvalidDiscount();
 
@@ -86,7 +87,7 @@ contract SerpentShieldsFactory is Initializable, OwnableUpgradeable, ReentrancyG
     if (payment > ERC20(stableCoin).balanceOf(_msgSender())) revert InsufficientFunds();
     vault.safeMintAndActivate(_msgSender(), amount);
     // we manage only trusted stable coins, so no risk of reentrancy
-    if (!ERC20(stableCoin).transferFrom(_msgSender(), address(this), payment)) revert TransferFailed();
+    ERC20(stableCoin).safeTransferFrom(_msgSender(), address(this), payment);
   }
 
   function withdrawProceeds(address beneficiary, address stableCoin, uint256 amount) external virtual onlyOwner {
@@ -95,7 +96,7 @@ contract SerpentShieldsFactory is Initializable, OwnableUpgradeable, ReentrancyG
       amount = balance;
     }
     if (amount > balance) revert InsufficientFunds();
-    if (!ERC20(stableCoin).transfer(beneficiary, amount)) revert TransferFailed();
+    ERC20(stableCoin).safeTransfer(beneficiary, amount);
   }
 
   function getStableCoins() external view virtual returns (address[] memory) {
