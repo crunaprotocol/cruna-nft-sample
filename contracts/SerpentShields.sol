@@ -38,6 +38,6 @@ contract SerpentShields is CrunaProtectedNFTOwnable {
   // @dev This function will mint a new token
   // @param to The address of the recipient
   function safeMintAndActivate(address to, uint256 amount) public virtual onlyFactory {
-    _mintAndActivate(to, amount);
+    _mintAndActivateByAmount(to, amount);
   }
 }

@@ -2,6 +2,8 @@ const hre = require("hardhat");
 const ethers = hre.ethers;
 const BN = require("bn.js");
 
+let count = 1;
+
 const Helpers = {
   bytes4(bytes32value) {
     return ethers.utils.hexDataSlice(bytes32value, 0, 4);
@@ -34,6 +36,10 @@ const Helpers = {
   keccak256(str) {
     const bytes = ethers.utils.toUtf8Bytes(str);
     return ethers.utils.keccak256(bytes);
+  },
+
+  cl(...args) {
+    console.log("\n >>>", count++, ...args, "\n");
   },
 };
 

@@ -1,6 +1,6 @@
 {
   "name": "cruna-nft-sample",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A Cruna Protocol NFT boilerplate",
   "scripts": {
     "clean": "rimraf artifacts cache coverage coverage.json",
@@ -28,7 +28,7 @@
   "homepage": "https://github.com/cruna-cc/cruna-nft-sample#readme",
   "license": "MIT",
   "devDependencies": {
-    "@cruna/protocol": "^0.1.1",
+    "@cruna/protocol": "0.1.9",
     "@metamask/eth-sig-util": "^7.0.1",
     "@openzeppelin/contracts": "^5.0.1",
     "erc6551": "^0.3.1",

@@ -6,7 +6,7 @@ const deployUtils = new EthDeployUtils();
 
 const CrunaTestUtils = require("./helpers/CrunaTestUtils");
 
-const { amount, normalize, addr0, getChainId, getTimestamp } = require("./helpers");
+const { amount, normalize, addr0, getChainId, getTimestamp, cl } = require("./helpers");
 
 describe("Integration test", function () {
   let crunaManagerProxy;
@@ -23,7 +23,7 @@ describe("Integration test", function () {
   async function initAndDeploy() {
     crunaManagerProxy = await CrunaTestUtils.deployManager(deployer);
     vault = await deployUtils.deploy("SerpentShields", deployer.address);
-    await vault.init(crunaManagerProxy.address, 1, true);
+    await vault.init(crunaManagerProxy.address, true, true, 1, 0);
     factory = await deployUtils.deployProxy("SerpentShieldsFactory", vault.address);
     await vault.setFactory(factory.address);
     usdc = await deployUtils.deploy("USDCoin", deployer.address);
@@ -46,8 +46,7 @@ describe("Integration test", function () {
   it("should buy a vault", async function () {
     let price = await factory.finalPrice(usdc.address);
     await usdc.approve(factory.address, price);
-    const nextTokenId = await vault.nextTokenId();
-    const precalculatedAddress = await vault.managerOf(nextTokenId);
+    const nextTokenId = (await vault.nftConf()).nextTokenId;
     await expect(factory.buySerpents(usdc.address, 1))
       .to.emit(vault, "Transfer")
       .withArgs(addr0, deployer.address, nextTokenId);
@@ -56,7 +55,7 @@ describe("Integration test", function () {
   async function buyVault(token, amount, buyer) {
     let price = await factory.finalPrice(token.address);
     await token.connect(buyer).approve(factory.address, price.mul(amount));
-    let nextTokenId = await vault.nextTokenId();
+    let nextTokenId = (await vault.nftConf()).nextTokenId;
 
     await expect(factory.connect(buyer).buySerpents(token.address, amount))
       .to.emit(vault, "Transfer")
@@ -68,7 +67,7 @@ describe("Integration test", function () {
   }
 
   it("should allow bob and alice to purchase some vaults", async function () {
-    let nextTokenId = await vault.nextTokenId();
+    let nextTokenId = (await vault.nftConf()).nextTokenId;
     await buyVault(usdc, 2, bob);
     await buyVault(usdc, 2, alice);
 
@@ -117,11 +116,12 @@ describe("Integration test", function () {
   });
 
   it("should allow bob and alice to purchase some vaults with a discount", async function () {
+    expect((await vault.nftConf()).nextTokenId).equal(1);
     await vault.setMaxTokenId(100);
-    expect(await vault.maxTokenId()).equal(100);
-
     await buyVault(usdc, 2, bob);
     await buyVault(usdc, 2, alice);
+
+    expect((await vault.nftConf()).nextTokenId).equal(5);
 
     let price = await factory.finalPrice(usdc.address);
     expect(price.toString()).to.equal("9900000000000000000");
@@ -129,10 +129,13 @@ describe("Integration test", function () {
 
   it("should fail if max supply reached", async function () {
     await buyVault(usdc, 2, bob);
-    await vault.setMaxTokenId(0);
-    expect(await vault.maxTokenId()).equal(2);
+    await expect(vault.setMaxTokenId(0)).revertedWith("InvalidMaxTokenId");
+    expect((await vault.nftConf()).maxTokenId).equal(0);
 
-    await expect(buyVault(usdc, 2, alice)).revertedWith("SupplyOverflow");
+    await vault.setMaxTokenId(3);
+    expect((await vault.nftConf()).maxTokenId).equal(3);
+
+    await expect(buyVault(usdc, 2, alice)).revertedWith("InvalidTokenId");
   });
 
   it("should remove a stableCoin when active is false", async function () {
