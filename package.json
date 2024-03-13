@@ -28,14 +28,12 @@
   "homepage": "https://github.com/cruna-cc/cruna-nft-sample#readme",
   "license": "MIT",
   "devDependencies": {
-    "@cruna/protocol": "0.2.0",
-    "@metamask/eth-sig-util": "^7.0.1",
-    "@openzeppelin/contracts": "^5.0.1",
-    "erc6551": "^0.3.1",
     "@ethersproject/contracts": "^5.7.0",
+    "@metamask/eth-sig-util": "^7.0.1",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@nomiclabs/hardhat-etherscan": "^3.1.7",
     "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@openzeppelin/contracts": "^5.0.1",
     "@openzeppelin/contracts-upgradeable": "^5.0.1",
     "@openzeppelin/hardhat-upgrades": "^1.28.0",
     "@openzeppelin/test-helpers": "^0.5.16",
@@ -44,6 +42,7 @@
     "case": "^1.6.3",
     "chai": "^4.3.10",
     "dotenv": "^16.3.1",
+    "erc6551": "^0.3.1",
     "eth-deploy-utils": "1.0.0-beta.11",
     "eth-sig-util": "^3.0.1",
     "ethereum-waffle": "^4.0.10",
@@ -68,5 +67,8 @@
   "lint-staged": {
     "*.js": "prettier --write",
     "*.{js,css,md}": "prettier --write"
+  },
+  "dependencies": {
+    "@cruna/protocol": "^0.2.6"
   }
 }
