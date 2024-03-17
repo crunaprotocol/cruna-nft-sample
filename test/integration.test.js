@@ -56,20 +56,23 @@ describe("Integration test", function () {
     let price = await factory.finalPrice(token.address);
     await token.connect(buyer).approve(factory.address, price.mul(amount));
     let nextTokenId = (await vault.nftConf()).nextTokenId;
-
-    await expect(factory.connect(buyer).buySerpents(token.address, amount))
-      .to.emit(vault, "Transfer")
-      .withArgs(addr0, buyer.address, nextTokenId)
-      .to.emit(vault, "Transfer")
-      .withArgs(addr0, buyer.address, nextTokenId.add(1))
+    let ret = [];
+    const e = expect(factory.connect(buyer).buySerpents(token.address, amount))
       .to.emit(token, "Transfer")
       .withArgs(buyer.address, factory.address, price.mul(amount));
+    for (let i = 0; i < amount; i++) {
+      ret.push(nextTokenId.add(i));
+      e.to.emit(vault, "Transfer").withArgs(addr0, buyer.address, nextTokenId.add(i));
+    }
+    await e;
+    return ret;
   }
 
   it("should allow bob and alice to purchase some vaults", async function () {
-    let nextTokenId = (await vault.nftConf()).nextTokenId;
-    await buyVault(usdc, 2, bob);
-    await buyVault(usdc, 2, alice);
+    const bobIds = await buyVault(usdc, 2, bob);
+    const aliceIds = await buyVault(usdc, 3, alice);
+
+    expect(await vault.balanceOf(alice.address)).to.equal(3);
 
     let price = await factory.finalPrice(usdc.address);
     expect(price.toString()).to.equal("9900000000000000000");
@@ -80,9 +83,9 @@ describe("Integration test", function () {
 
     await expect(factory.withdrawProceeds(fred.address, usdc.address, 0))
       .to.emit(usdc, "Transfer")
-      .withArgs(factory.address, fred.address, amount("29.6"));
+      .withArgs(factory.address, fred.address, price.mul(5).sub(amount("10")));
 
-    const managerAddress = await vault.managerOf(nextTokenId);
+    const managerAddress = await vault.managerOf(bobIds[0]);
     const manager = await ethers.getContractAt("CrunaManager", managerAddress);
 
     const selector = await CrunaTestUtils.selectorId("ICrunaManager", "setProtector");
@@ -95,7 +98,7 @@ describe("Integration test", function () {
         bob.address,
         alice.address,
         vault.address,
-        nextTokenId,
+        bobIds[0],
         1,
         0,
         0,
@@ -110,9 +113,9 @@ describe("Integration test", function () {
     // set Alice as first Bob's protector
     await expect(manager.connect(bob).setProtector(alice.address, true, ts, 3600, signature))
       .to.emit(manager, "ProtectorChange")
-      .withArgs(nextTokenId, alice.address, true)
+      .withArgs(bobIds[0], alice.address, true)
       .to.emit(vault, "Locked")
-      .withArgs(nextTokenId, true);
+      .withArgs(bobIds[0], true);
   });
 
   it("should allow bob and alice to purchase some vaults with a discount", async function () {
