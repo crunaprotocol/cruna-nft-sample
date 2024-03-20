@@ -1,6 +1,6 @@
 {
   "name": "cruna-nft-sample",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "A Cruna Protocol NFT boilerplate",
   "scripts": {
     "clean": "rimraf artifacts cache coverage coverage.json",
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/cruna-cc/cruna-nft-sample#readme",
   "license": "MIT",
   "devDependencies": {
+    "@cruna/protocol": "^0.3.0",
     "@ethersproject/contracts": "^5.7.0",
     "@metamask/eth-sig-util": "^7.0.1",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
@@ -67,8 +68,5 @@
   "lint-staged": {
     "*.js": "prettier --write",
     "*.{js,css,md}": "prettier --write"
-  },
-  "dependencies": {
-    "@cruna/protocol": "^0.2.6"
   }
 }

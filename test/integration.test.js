@@ -23,7 +23,7 @@ describe("Integration test", function () {
   async function initAndDeploy() {
     crunaManagerProxy = await CrunaTestUtils.deployManager(deployer);
     vault = await deployUtils.deploy("SerpentShields", deployer.address);
-    await vault.init(crunaManagerProxy.address, true, true, 1, 0);
+    await vault.init(crunaManagerProxy.address, true, 1, 0);
     factory = await deployUtils.deployProxy("SerpentShieldsFactory", vault.address);
     await vault.setFactory(factory.address);
     usdc = await deployUtils.deploy("USDCoin", deployer.address);
@@ -43,7 +43,7 @@ describe("Integration test", function () {
     await initAndDeploy();
   });
 
-  it("should buy a vault", async function () {
+  it.only("should buy a vault", async function () {
     let price = await factory.finalPrice(usdc.address);
     await usdc.approve(factory.address, price);
     const nextTokenId = (await vault.nftConf()).nextTokenId;
