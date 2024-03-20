@@ -14,16 +14,17 @@ describe("Integration test", function () {
   let factory;
   let usdc;
   let deployer, bob, alice, fred, mike;
+  let erc6551Registry, crunaRegistry, crunaGuardian;
 
   before(async function () {
     [deployer, bob, alice, fred, mike] = await ethers.getSigners();
-    await CrunaTestUtils.deployCanonical(deployer);
+    [erc6551Registry, crunaRegistry, crunaGuardian] = await CrunaTestUtils.deployCanonical(deployer);
   });
 
   async function initAndDeploy() {
     crunaManagerProxy = await CrunaTestUtils.deployManager(deployer);
     vault = await deployUtils.deploy("SerpentShields", deployer.address);
-    await vault.init(crunaManagerProxy.address, true, true, 1, 0);
+    await vault.init(crunaManagerProxy.address, true, 1, 0);
     factory = await deployUtils.deployProxy("SerpentShieldsFactory", vault.address);
     await vault.setFactory(factory.address);
     usdc = await deployUtils.deploy("USDCoin", deployer.address);
