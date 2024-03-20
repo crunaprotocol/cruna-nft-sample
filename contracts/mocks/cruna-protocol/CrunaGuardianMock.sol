@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL3
 pragma solidity ^0.8.0;
 
-import {CrunaGuardian} from "@cruna/protocol/canonical/CrunaGuardian.sol";
+import {CrunaGuardian} from "@cruna/protocol/guardian/CrunaGuardian.sol";
 
 contract CrunaGuardianMock is CrunaGuardian {
   constructor(

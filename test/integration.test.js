@@ -14,10 +14,11 @@ describe("Integration test", function () {
   let factory;
   let usdc;
   let deployer, bob, alice, fred, mike;
+  let erc6551Registry, crunaRegistry, crunaGuardian;
 
   before(async function () {
     [deployer, bob, alice, fred, mike] = await ethers.getSigners();
-    await CrunaTestUtils.deployCanonical(deployer);
+    [erc6551Registry, crunaRegistry, crunaGuardian] = await CrunaTestUtils.deployCanonical(deployer);
   });
 
   async function initAndDeploy() {
@@ -43,7 +44,7 @@ describe("Integration test", function () {
     await initAndDeploy();
   });
 
-  it.only("should buy a vault", async function () {
+  it("should buy a vault", async function () {
     let price = await factory.finalPrice(usdc.address);
     await usdc.approve(factory.address, price);
     const nextTokenId = (await vault.nftConf()).nextTokenId;
