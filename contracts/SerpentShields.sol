@@ -23,7 +23,7 @@ contract SerpentShields is CrunaProtectedNFTOwnable {
   //   using Nick's factory, so we may in theory hardcode them in the code. However,
   //   if so, we will not be able to test the contract.
   // @param owner The address of the owner.
-  constructor(address owner) CrunaProtectedNFTOwnable("SerpentShields", "LW", owner) {}
+  constructor(address owner) CrunaProtectedNFTOwnable("SerpentShields", "SES", owner) {}
 
   // @dev Set factory to 0x0 to disable a factory.
   // @notice This is the only function that can be called by the owner.

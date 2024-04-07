@@ -6,8 +6,8 @@ settings:
 
 devDependencies:
   '@cruna/protocol':
-    specifier: ^0.3.3
-    version: 0.3.3
+    specifier: ^0.4.1
+    version: 0.4.1
   '@ethersproject/contracts':
     specifier: ^5.7.0
     version: 5.7.0
@@ -183,8 +183,8 @@ packages:
     dev: true
     optional: true
 
-  /@cruna/protocol@0.3.3:
-    resolution: {integrity: sha512-wyu9aXG+C6vgrPRNDNw1StQmOfHRITjA/8V6O3qUJlsilnKpkYNgRyWpggJd+Am9g0ew0W1R84ogNkz4NDB5ug==}
+  /@cruna/protocol@0.4.1:
+    resolution: {integrity: sha512-50McvWh5MHxJO/M2RdKgoQkn4ExT3zUsApodPMSKNII8uQhM+V6f2+wM6l3t/J5l+V2Wo275lB6H8uStc007zw==}
     dependencies:
       '@openzeppelin/contracts': 5.0.2
       erc6551: 0.3.1
