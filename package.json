@@ -51,7 +51,7 @@
     "ethereumjs-util": "^7.1.5",
     "ethers": "^5.7.2",
     "fs-extra": "^11.2.0",
-    "hardhat": "^2.22.1",
+    "hardhat": "^2.22.3",
     "hardhat-contract-sizer": "^2.10.0",
     "hardhat-gas-reporter": "^1.0.10",
     "husky": "^8.0.3",
