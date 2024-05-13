@@ -41,7 +41,7 @@
     "@secrez/cryptoenv": "^0.2.4",
     "bn.js": "^5.2.1",
     "case": "^1.6.3",
-    "chai": "^4.4.1",
+    "chai": "^5.1.1",
     "dotenv": "^16.4.5",
     "erc6551": "^0.3.1",
     "eth-deploy-utils": "1.0.0-beta.11",
