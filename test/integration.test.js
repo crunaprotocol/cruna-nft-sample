@@ -6,7 +6,20 @@ const deployUtils = new EthDeployUtils();
 
 const CrunaTestUtils = require("./helpers/CrunaTestUtils");
 
-const { amount, normalize, addr0, getChainId, getTimestamp, cl } = require("./helpers");
+const {
+  deployCanonical,
+  deployManager,
+  normalize,
+  addr0,
+  getChainId,
+  getTimestamp,
+  bytes4,
+  keccak256,
+  cl,
+  pluginKey,
+  selectorId,
+  signRequest,
+} = require("./helpers/CrunaTestUtils");
 
 describe("Integration test", function () {
   let crunaManagerProxy;
@@ -20,6 +33,10 @@ describe("Integration test", function () {
     [deployer, bob, alice, fred, mike] = await ethers.getSigners();
     [erc6551Registry, crunaRegistry, crunaGuardian] = await CrunaTestUtils.deployCanonical(deployer);
   });
+
+  function amount(str) {
+    return ethers.utils.parseEther(str);
+  }
 
   async function initAndDeploy() {
     crunaManagerProxy = await CrunaTestUtils.deployManager(deployer);

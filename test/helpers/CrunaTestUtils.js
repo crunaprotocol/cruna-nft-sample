@@ -1,11 +1,52 @@
 const hre = require("hardhat");
 const { domainType } = require("./eip712");
+const BN = require("bn.js");
 const ethers = hre.ethers;
 const ethSigUtil = require("eth-sig-util");
 const deployUtils = new (require("eth-deploy-utils"))();
 const canonicalBytecodes = require("@cruna/protocol/canonicalBytecodes.json");
+const erc7656Bytecode = require("erc7656/bytecode.json");
+
+let count = 1;
 
 const CrunaTestUtils = {
+  bytes4(bytes32value) {
+    return ethers.utils.hexDataSlice(bytes32value, 0, 4);
+  },
+
+  async getChainId() {
+    const chainId = (await hre.ethers.provider.getNetwork()).chainId;
+    return new BN(chainId, 10);
+  },
+
+  async getTimestamp() {
+    return (await ethers.provider.getBlock()).timestamp;
+  },
+
+  addr0: "0x" + "0".repeat(40),
+
+  async increaseBlockTimestampBy(offset) {
+    await ethers.provider.send("evm_increaseTime", [offset]);
+    await ethers.provider.send("evm_mine");
+  },
+
+  amount(str) {
+    return ethers.utils.parseEther(str);
+  },
+
+  normalize(amount, decimals = 18) {
+    return amount + "0".repeat(decimals);
+  },
+
+  keccak256(str) {
+    const bytes = ethers.utils.toUtf8Bytes(str);
+    return ethers.utils.keccak256(bytes);
+  },
+
+  cl(...args) {
+    console.log("\n >>>", count++, ...args, "\n");
+  },
+
   async deployCanonical(deployer) {
     await deployUtils.deployNickSFactory(deployer);
     const erc6551Registry = await deployUtils.deployBytecodeViaNickSFactory(
@@ -17,8 +58,8 @@ const CrunaTestUtils = {
     const crunaRegistry = await deployUtils.deployBytecodeViaNickSFactory(
       deployer,
       "ERC7656Registry",
-      canonicalBytecodes.ERC7656Registry.bytecode,
-      canonicalBytecodes.ERC7656Registry.salt,
+      erc7656Bytecode.bytecode,
+      erc7656Bytecode.salt,
     );
     const crunaGuardian = await deployUtils.deployBytecodeViaNickSFactory(
       deployer,
@@ -32,10 +73,6 @@ const CrunaTestUtils = {
   async deployManager(deployer) {
     const managerImpl = await deployUtils.deploy("CrunaManager");
     return deployUtils.deploy("CrunaManagerProxy", managerImpl.address);
-  },
-
-  bytes4(bytes32value) {
-    return ethers.utils.hexDataSlice(bytes32value, 0, 4);
   },
 
   async makeSignature(chainId, verifyingContract, privateKey, primaryType, types, message) {
@@ -55,11 +92,6 @@ const CrunaTestUtils = {
     };
     data.types[primaryType] = types;
     return ethSigUtil.signTypedMessage(Buffer.from(privateKey.slice(2), "hex"), { data });
-  },
-
-  keccak256(str) {
-    const bytes = ethers.utils.toUtf8Bytes(str);
-    return ethers.utils.keccak256(bytes);
   },
 
   combineTimestampAndValidFor(timestamp, validFor) {
@@ -131,6 +163,12 @@ const CrunaTestUtils = {
       }
     });
     return selector;
+  },
+
+  pluginKey(name, impl, salt) {
+    return (
+      salt.substring(0, 10) + "0000" + impl.substring(2).toLowerCase() + "0000" + thiz.bytes4(thiz.keccak256(name)).substring(2)
+    );
   },
 };
 
