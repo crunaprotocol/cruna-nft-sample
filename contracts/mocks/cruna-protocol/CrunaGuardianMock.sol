@@ -6,8 +6,8 @@ import {CrunaGuardian} from "@cruna/protocol/guardian/CrunaGuardian.sol";
 contract CrunaGuardianMock is CrunaGuardian {
   constructor(
     uint256 minDelay,
-    address[] memory proposers,
-    address[] memory executors,
+    address firstProposer,
+    address firstExecutor,
     address admin
-  ) CrunaGuardian(minDelay, proposers, executors, admin) {}
+  ) CrunaGuardian(minDelay, firstProposer, firstExecutor, admin) {}
 }
