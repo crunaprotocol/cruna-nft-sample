@@ -4,10 +4,15 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  erc7656:
+    specifier: ^0.0.9
+    version: 0.0.9
+
 devDependencies:
   '@cruna/protocol':
-    specifier: ^0.5.0
-    version: 0.5.0
+    specifier: ^0.7.1
+    version: 0.7.1
   '@ethersproject/contracts':
     specifier: ^5.7.0
     version: 5.7.0
@@ -183,8 +188,8 @@ packages:
     dev: true
     optional: true
 
-  /@cruna/protocol@0.5.0:
-    resolution: {integrity: sha512-EIc1Bynx2uH0x0McajcgTXWx/gkoxHWWiZfTMQh2/DqWzaPQSQ9vxJxwJ7w2RUYY0Oab2Ysk5wQJqUuXNMHtxw==}
+  /@cruna/protocol@0.7.1:
+    resolution: {integrity: sha512-6osbOs1ZEfjZ+dfGA14Aq+mEfFWsl22J1b11N2AUFhvwR04sQw5PwahQ28eteC51Pk7RMRQwrRF2VDcuuH5Etg==}
     dependencies:
       '@openzeppelin/contracts': 5.0.2
       erc6551: 0.3.1
@@ -1239,7 +1244,6 @@ packages:
 
   /@openzeppelin/contracts@5.0.2:
     resolution: {integrity: sha512-ytPc6eLGcHHnapAZ9S+5qsdomhjo6QBHTDRRBFfTxXIpsicMhVPouPgmUPebZZZGX7vt9USA+Z+0M0dSVtSUEA==}
-    dev: true
 
   /@openzeppelin/defender-base-client@1.54.1(debug@4.3.4):
     resolution: {integrity: sha512-DRGz/7KN3ZQwu28YWMOaojrC7jjPkz/uCwkC8/C8B11qwZhA5qIVvyhYHhhFOCl0J84+E3TNdvkPD2q3p2WaJw==}
@@ -3490,7 +3494,13 @@ packages:
 
   /erc6551@0.3.1:
     resolution: {integrity: sha512-4+O7CJ5gn3/s2Mum1QiJDJUbGE1P1m0t3do2nnFAKWEXLubWfZjS12HqraUJ6Y6su3WJ8EqdWm0270gC0bqpCA==}
-    dev: true
+
+  /erc7656@0.0.9:
+    resolution: {integrity: sha512-tVm7s9x+O2+dNRwxAWmibA0j5tpPTSfdG6Z/AgyOpGxb4/lOIfU//9RWy7S4fFnzzrC84/LXAVI5McDV07HmdA==}
+    dependencies:
+      '@openzeppelin/contracts': 5.0.2
+      erc6551: 0.3.1
+    dev: false
 
   /errno@0.1.8:
     resolution: {integrity: sha512-dJ6oBr5SQ1VSd9qkk7ByRgb/1SH4JZjCHSW/mr63/QcXO9zLVxvJ6Oy13nio03rxpSnVDDjFor75SjVeZWPW/A==}

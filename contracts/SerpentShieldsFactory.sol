@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: GPL3
 pragma solidity ^0.8.20;
 
-// Author : Francesco Sullo < francesco@superpower.io>
-// (c) Superpower Labs Inc.
+// Author : Francesco Sullo < francesco@sullo.co>
 
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Initializable, UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";

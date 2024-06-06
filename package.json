@@ -28,7 +28,7 @@
   "homepage": "https://github.com/cruna-cc/cruna-nft-sample#readme",
   "license": "MIT",
   "devDependencies": {
-    "@cruna/protocol": "^0.5.0",
+    "@cruna/protocol": "^0.7.1",
     "@ethersproject/contracts": "^5.7.0",
     "@metamask/eth-sig-util": "^7.0.1",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
@@ -68,5 +68,8 @@
   "lint-staged": {
     "*.js": "prettier --write",
     "*.{js,css,md}": "prettier --write"
+  },
+  "dependencies": {
+    "erc7656": "^0.0.9"
   }
 }
